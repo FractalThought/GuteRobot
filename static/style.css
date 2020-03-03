@@ -1,0 +1,75 @@
+:root {
+  --gray: #4a5568;
+  --gray-border: #1a202c;
+  --gray-text: #f7fafc;
+
+  --green: #2f855a;
+  --green-border: #22543d;
+  --green-text: #f0fff4;
+
+  --blue: #2b6cb0;
+  --blue-border: #2a4365;
+  --blue-text: #ebf8ff;
+
+  --red: #c53030;
+  --red-border: #742a2a;
+  --red-text: #fff5f5;
+
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.controller {
+  width: 30vw;
+  height: 30vh;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  box-shadow: var(--shadow-md);
+}
+
+.button {
+  display: inline-block;
+  padding: 5px;
+  background: var(--gray);
+  border: 5px solid var(--gray-border);
+  box-shadow: var(--shadow-md);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--gray-text);
+  font-size: 2rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button--forwards {
+  background: var(--green);
+  border-color: var(--green-border);
+  color: var(--green-text);
+}
+
+.button--backwards {
+  background: var(--blue);
+  border-color: var(--blue-border);
+  color: var(--blue-text);
+}
+
+.button--stop {
+  background: var(--red);
+  border-color: var(--red-border);
+  color: var(--red-text);
+}
