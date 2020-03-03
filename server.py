@@ -89,8 +89,7 @@ def action(action):
         stop()
 
     templateData = {
-        'title': 'GuteRobot action',
-        'action': actionName
+        'title': actionName
     }
     return render_template('action.html', **templateData)
 
