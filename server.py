@@ -12,6 +12,7 @@ import time
 
 def init():
     gpio.setmode(gpio.BCM)
+    gpio.setwarnings(False)
     gpio.setup(23, gpio.OUT)  # Left wheels forwards
     gpio.setup(24, gpio.OUT)  # Left wheels backwards
     gpio.setup(20, gpio.OUT)  # Right wheels forwards
