@@ -17,45 +17,46 @@ def init():
     gpio.setup(24, gpio.OUT)  # Left wheels backwards
     gpio.setup(20, gpio.OUT)  # Right wheels forwards
     gpio.setup(21, gpio.OUT)  # Right wheels backwards
+    print("GPIO initialized")
 
 
 def forward():
     stop()
-    gpio.output(23, True)  # Left wheels forward
+    gpio.output(23, True)
     gpio.output(24, False)
-    gpio.output(20, True)  # Right wheels forward
+    gpio.output(20, True)
     gpio.output(21, False)
 
 
 def backward():
     stop()
     gpio.output(23, False)
-    gpio.output(24, True)  # Left wheels backwards
+    gpio.output(24, True)
     gpio.output(20, False)
-    gpio.output(21, True)  # Right wheels backwards
+    gpio.output(21, True)
 
 
 def right():
     stop()
     gpio.output(23, False)
-    gpio.output(24, True)  # Left wheels backwards
-    gpio.output(20, True)  # Right wheels forward
+    gpio.output(24, True)
+    gpio.output(20, True)
     gpio.output(21, False)
 
 
 def left():
     stop()
-    gpio.output(23, True)  # Left wheels forward
+    gpio.output(23, True)
     gpio.output(24, False)
     gpio.output(20, False)
-    gpio.output(21, True)  # Right wheels backwards
+    gpio.output(21, True)
 
 
 def stop():
-    gpio.output(23, False)  # Left wheels forward
+    gpio.output(23, False)
     gpio.output(24, False)
     gpio.output(20, False)
-    gpio.output(21, False)  # Right wheels backwards
+    gpio.output(21, False)
 
 
 init()
@@ -71,22 +72,27 @@ def index():
 
 @app.route("/<action>")
 def action(action):
+    actionName = ""
     if (action == "f"):
         forward()
+        actionName = "forward"
     elif (action == "l"):
         left()
+        actionName = "left"
     elif (action == "r"):
         right()
+        actionName = "right"
     elif (action == "b"):
         backward()
+        actionName = "backward"
     elif action == "s":
         stop()
 
     templateData = {
         'title': 'GuteRobot action',
-        'action': action
+        'action': actionName
     }
-    return render_template('index.html', **templateData)
+    return render_template('action.html', **templateData)
 
 
 if __name__ == "__main__":
