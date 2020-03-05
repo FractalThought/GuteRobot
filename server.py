@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+import robotcontroller as robot
 import RPi.GPIO as gpio
 import time
 
@@ -66,6 +67,17 @@ app = Flask(__name__)
 def index():
     templateData = {
         'title': 'GuteRobot'
+    }
+    return render_template('index.html', **templateData)
+
+
+@app.route('/', methods=['POST'])
+def postJsonHandler():
+    print(request.is_json)
+    content = request.get_json()
+
+    templateData = {
+        'title': "lol"
     }
     return render_template('index.html', **templateData)
 

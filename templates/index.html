@@ -1,3 +1,29 @@
+<!--
+
+  JS to add to input
+  Format like this:
+  Action-Time,Action,Action-Time
+  Example:
+  F-10,B-5,R
+  Form with method="post"
+
+  In python:
+  Split string on , and send it to an ActionHandleFunction
+  One problem with this is that the robot will be stuck in a while-loop
+  Need to add to a queue (localstorage-like) and create an event-system?
+  
+  Need to clear that queue if a new command is sent
+
+  Actually need two threads?
+  One thread that handles the server
+  One thread that handles the robot
+
+  https://scotch.io/bar-talk/processing-incoming-request-data-in-flask
+  https://realpython.com/intro-to-python-threading/
+  https://docs.python.org/3/library/asyncio-task.html
+
+-->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,9 +34,37 @@
   </head>
   <body>
     <div class="controller">
-      <a href="/f" class="button button--forwards">Forwards</a>
-      <a href="/b" class="button button--backwards">Backwards</a>
-      <a href="/s" class="button button--stop">Stop</a>
+      <div class="list-container">
+        <h1>Current actions</h1>
+        <ul id="action-list"></ul>
+      </div>
+
+      <input type="text" id="delay-input" />
+      <button
+        class="action-button button button--forwards"
+        data-action="forwards"
+      >
+        Forwards
+      </button>
+      <button
+        class="action-button button button--backwards"
+        data-action="backwards"
+      >
+        Backwards
+      </button>
+      <button class="action-button button button--left" data-action="left">
+        Turn left
+      </button>
+      <button class="action-button button button--left" data-action="right">
+        Turn right
+      </button>
+      <button class="action-button button button--stop" data-action="stop">
+        Stop
+      </button>
+      <button id="postData" class="button button--send">
+        Send command
+      </button>
     </div>
   </body>
+  <script src="../static/app.js"></script>
 </html>
