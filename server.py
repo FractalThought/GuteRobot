@@ -2,64 +2,77 @@ from flask import Flask, render_template, request
 import robotcontroller as robot
 import RPi.GPIO as gpio
 import time
+import threading
 
 # https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d
+# https://tutorialedge.net/python/concurrency/asyncio-event-loops-tutorial/
 
-"""
-23 and 24 to right side
-20 and 21 to left side
-"""
+leftWheelsForwards = 23
+leftWheelsBackwards = 24
+rightWheelsForwards = 20
+rightWheelsBackwards = 21
+
+
+def LeftWheels(direction):
+    forwards = True
+    if(direction == "backwards"):
+        forwards = False
+    gpio.output(leftWheelsForwards, forwards)
+    gpio.output(leftWheelsBackwards, not forwards)
+    print("Left wheels going " + direction)
+
+
+def RightWheels(direction):
+    forwards = True
+    if(direction == "backwards"):
+        forwards = False
+    gpio.output(rightWheelsForwards, forwards)
+    gpio.output(rightWheelsBackwards, not forwards)
+    print("Right wheels going " + direction)
 
 
 def init():
     gpio.setmode(gpio.BCM)
     gpio.setwarnings(False)
-    gpio.setup(23, gpio.OUT)  # Left wheels forwards
-    gpio.setup(24, gpio.OUT)  # Left wheels backwards
-    gpio.setup(20, gpio.OUT)  # Right wheels forwards
-    gpio.setup(21, gpio.OUT)  # Right wheels backwards
+    gpio.setup(leftWheelsForwards, gpio.OUT)  # Left wheels forwards
+    gpio.setup(leftWheelsBackwards, gpio.OUT)  # Left wheels backwards
+    gpio.setup(rightWheelsForwards, gpio.OUT)  # Right wheels forwards
+    gpio.setup(rightWheelsBackwards, gpio.OUT)  # Right wheels backwards
     print("GPIO initialized")
 
 
 def forward():
     stop()
-    gpio.output(23, True)
-    gpio.output(24, False)
-    gpio.output(20, True)
-    gpio.output(21, False)
+    RightWheels("forwards")
+    LeftWheels("forwards")
 
 
 def backward():
     stop()
-    gpio.output(23, False)
-    gpio.output(24, True)
-    gpio.output(20, False)
-    gpio.output(21, True)
+    RightWheels("backwards")
+    LeftWheels("backwards")
 
 
 def right():
     stop()
-    gpio.output(23, False)
-    gpio.output(24, True)
-    gpio.output(20, True)
-    gpio.output(21, False)
+    RightWheels("backwards")
+    LeftWheels("forwards")
 
 
 def left():
     stop()
-    gpio.output(23, True)
-    gpio.output(24, False)
-    gpio.output(20, False)
-    gpio.output(21, True)
+    RightWheels("forwards")
+    LeftWheels("backwards")
 
 
 def stop():
-    gpio.output(23, False)
-    gpio.output(24, False)
-    gpio.output(20, False)
-    gpio.output(21, False)
+    gpio.output(leftWheelsForwards, False)
+    gpio.output(leftWheelsBackwards, False)
+    gpio.output(rightWheelsForwards, False)
+    gpio.output(rightWheelsBackwards, False)
 
 
+# Run the Init-function to initialize the GPIO
 init()
 
 app = Flask(__name__)
